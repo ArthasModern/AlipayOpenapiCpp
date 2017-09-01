@@ -3,7 +3,7 @@
 
 const string OpenapiClient::default_charset      = "utf-8";
 const string OpenapiClient::default_url          = "https://openapi.alipay.com/gateway.do";
-const string OpenapiClient::default_sign_type    = "RSA";
+const string OpenapiClient::default_sign_type    = "RSA2";
 const string OpenapiClient::default_version      = "2.0";
 
 const string OpenapiClient::KEY_APP_ID           = "app_id";

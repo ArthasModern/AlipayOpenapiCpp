@@ -9,7 +9,7 @@
 #include <time.h>
 
 #ifndef XRSA_KEY_BITS
-#define XRSA_KEY_BITS (1024)
+#define XRSA_KEY_BITS (2048)
 #endif
 
 /** STL map default sort order by key **/

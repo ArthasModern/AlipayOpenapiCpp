@@ -3,8 +3,8 @@
 
 const string OpenapiClient::default_charset      = "utf-8";
 const string OpenapiClient::default_url          = "https://openapi.alipay.com/gateway.do";
-const string OpenapiClient::default_sign_type    = "RSA";
-const string OpenapiClient::default_version      = "2.0";
+const string OpenapiClient::default_sign_type    = "RSA2";
+const string OpenapiClient::default_version      = "1.0";
 
 const string OpenapiClient::KEY_APP_ID           = "app_id";
 const string OpenapiClient::KEY_METHOD           = "method";
@@ -162,11 +162,11 @@ string OpenapiClient::rsaSign(const string &content, const string &key) {
     if (p_rsa != NULL) {
 
         const char *cstr = content.c_str();
-        unsigned char hash[SHA_DIGEST_LENGTH] = {0};
-        SHA1((unsigned char *)cstr, strlen(cstr), hash);
+        unsigned char hash[SHA256_DIGEST_LENGTH] = {0};
+        SHA256((unsigned char *)cstr, strlen(cstr), hash);
         unsigned char sign[XRSA_KEY_BITS / 8] = {0};
         unsigned int sign_len = sizeof(sign);
-        int r = RSA_sign(NID_sha1, hash, SHA_DIGEST_LENGTH, sign, &sign_len, p_rsa);
+        int r = RSA_sign(NID_sha256, hash, SHA256_DIGEST_LENGTH, sign, &sign_len, p_rsa);
 
         if (0 != r && sizeof(sign) == sign_len) {
             signed_str = base64Encode(sign, sign_len);
@@ -188,13 +188,13 @@ bool OpenapiClient::rsaVerify(const string &content, const string &sign, const s
 
     if (p_rsa != NULL) {
         const char *cstr = content.c_str();
-        unsigned char hash[SHA_DIGEST_LENGTH] = {0};
-        SHA1((unsigned char *)cstr, strlen(cstr), hash);
+        unsigned char hash[SHA256_DIGEST_LENGTH] = {0};
+        SHA256((unsigned char *)cstr, strlen(cstr), hash);
         unsigned char sign_cstr[XRSA_KEY_BITS / 8] = {0};
         int len = XRSA_KEY_BITS / 8;
         base64Decode(sign, sign_cstr, len);
         unsigned int sign_len = XRSA_KEY_BITS / 8;
-        int r = RSA_verify(NID_sha1, hash, SHA_DIGEST_LENGTH, (unsigned char *)sign_cstr, sign_len, p_rsa);
+        int r = RSA_verify(NID_sha256, hash, SHA256_DIGEST_LENGTH, (unsigned char *)sign_cstr, sign_len, p_rsa);
 
         if (r > 0) {
             result = true;

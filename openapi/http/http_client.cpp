@@ -47,7 +47,7 @@ string HttpClient::sendSyncRequest(const string &url,
     string headitem;
     for (HeaderMap::const_iterator iter = headers.begin(); iter != headers.end(); ++iter) {
         headitem = iter->first;
-        headitem += " : ";
+        headitem += ": ";
         headitem += iter->second;
         headerlist = curl_slist_append(headerlist, headitem.c_str());
         headitem.clear();
